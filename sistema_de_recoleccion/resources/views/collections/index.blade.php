@@ -1,41 +1,45 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto p-4">
+<div class="max-w-7xl mx-auto p-4">
     <h1 class="text-2xl font-bold mb-4">Mis recolecciones</h1>
 
-    <a href="{{ route('collections.create') }}" class="btn btn-primary mb-4">Solicitar Recolección</a>
+    <a href="{{ route('collections.create') }}" class="inline-flex items-center px-4 py-2 mb-4 text-sm font-medium rounded shadow" style="background-color:#f59e0b;color:#ffffff;text-decoration:none;">
+        Solicitar Recolección
+    </a>
 
     @if($collections->count())
-        <table class="min-w-full bg-white">
-            <thead>
-            <tr>
-                <th>Tipo</th>
-                <th>Modo</th>
-                <th>Frecuencia (veces/semana)</th>
-                <th>Programada</th>
-                <th>Kilos</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($collections as $c)
+        <div class="overflow-x-auto bg-white rounded shadow">
+            <table class="min-w-full divide-y divide-gray-200 table-auto">
+                <thead class="bg-gray-50">
                 <tr>
-                    <td>{{ $c->type }}</td>
-                    <td>{{ $c->mode }}</td>
-                    <td>{{ $c->frequency ?? '-' }}</td>
-                    <td>{{ optional($c->scheduled_at)->format('Y-m-d H:i') }}</td>
-                    <td>{{ $c->kilos ?? '-' }}</td>
-                    <td>{{ $c->status }}</td>
-                    <td>
-                        <a href="{{ route('collections.show', $c) }}">Ver</a>
-                        <a href="{{ route('collections.edit', $c) }}">Editar</a>
-                    </td>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Tipo</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Modo</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700" style="min-width:140px;">Frecuencia (veces/semana)</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700" style="min-width:160px;">Programada</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Kilos</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Estado</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium text-gray-700" style="min-width:160px;">Acciones</th>
                 </tr>
-            @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                @foreach($collections as $c)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $c->type }}</td>
+                        <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $c->mode }}</td>
+                        <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $c->frequency ?? '-' }}</td>
+                        <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ optional($c->scheduled_at)->format('Y-m-d H:i') }}</td>
+                        <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $c->kilos ?? '-' }}</td>
+                        <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $c->status }}</td>
+                        <td class="px-6 py-4 text-sm">
+                            <a href="{{ route('collections.show', $c) }}" class="inline-block px-3 py-1 mr-2 text-sm rounded" style="background-color:#e5e7eb;color:#111827;text-decoration:none;">Ver</a>
+                            <a href="{{ route('collections.edit', $c) }}" class="inline-block px-3 py-1 text-sm rounded" style="background-color:#c7f0d6;color:#065f46;text-decoration:none;">Editar</a>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
 
         {{ $collections->links() }}
     @else
