@@ -1,0 +1,55 @@
+@startuml UseCase_Diagram
+left to right direction
+skinparam packageStyle rectangle
+
+actor Administrador
+actor Operario
+actor Usuario
+actor WhatsApp as "Sistema: WhatsApp"
+actor Tienda as "Sistema: Tienda colaboradora"
+actor Empresa as "Empresa Recolectora"
+
+rectangle "Sistema de Recolección" {
+  (Autenticar Usuario) as UC1
+  (Gestionar Perfiles de Usuario) as UC2
+  (Solicitar Recolección) as UC3
+  (Asignar / Gestionar Rutas) as UC4
+  (Registrar Peso y Recolecciones) as UC5
+  (Generar Reportes) as UC6
+  (Notificar por WhatsApp) as UC7
+  (Canjear Puntos) as UC8
+}
+
+Administrador --> UC1
+Operario --> UC1
+Usuario --> UC1
+
+Administrador --> UC2
+Administrador --> UC4
+Administrador --> UC6
+
+Usuario --> UC3
+Usuario --> UC5
+Usuario --> UC6
+Usuario --> UC8
+
+Operario --> UC4
+Operario --> UC5
+
+WhatsApp --> UC7
+Tienda --> UC8
+Empresa --> UC4
+
+UC3 ..> UC7 : notifica
+UC5 ..> UC6 : aporta datos
+
+note right of UC7
+  Notificaciones: registro, día anterior y día de la recolección
+  con número de turno dentro de la ruta
+end note
+
+note left of UC8
+  Canje de puntos con tiendas colaboradoras
+end note
+
+@enduml
