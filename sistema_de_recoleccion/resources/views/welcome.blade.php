@@ -36,7 +36,7 @@
                             class="inline-block px-5 py-1.5 bg-green-600 text-white text-sm font-medium rounded hover:bg-green-700"
                             style="background-color:#16a34a;color:#ffffff;"
                         >
-                            Log in
+                            Iniciar Sesión
                         </a>
 
                         @if (Route::has('register'))
@@ -45,7 +45,7 @@
                                 class="inline-block px-5 py-1.5 bg-green-600 text-white text-sm font-medium rounded hover:bg-green-700"
                                 style="background-color:#16a34a;color:#ffffff;"
                             >
-                                Register
+                                Registrarse
                             </a>
                         @endif
                     @endauth
