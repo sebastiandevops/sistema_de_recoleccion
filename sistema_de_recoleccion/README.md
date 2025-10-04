@@ -4,6 +4,7 @@ Proyecto para la materia: Ingeniería de Software I
 Institución: Politécnico Grancolombiano
 
 Equipo:
+-------
 
 ```
 Sebastián Valencia Sierra
@@ -13,6 +14,8 @@ Julio Cesar Cárdenas Rodríguez
 ```
 
 Tabla de contenido
+------------------
+
 - [Descripción del proyecto](#descripción-del-proyecto)
 - [Requerimientos funcionales](#requerimientos-funcionales)
 - [Requerimientos no funcionales](#requerimientos-no-funcionales)
@@ -220,7 +223,9 @@ Resumen de aspectos no funcionales importantes:
 - Mantenibilidad: código modular y documentado, fácil de extender.
 - Compatibilidad: soporte para navegadores modernos y dispositivos móviles.
 
+
 Requisitos (desarrollo)
+-----------------------
 - PHP >= 8.2
 - Composer
 - Node 16/18/20+ y npm
