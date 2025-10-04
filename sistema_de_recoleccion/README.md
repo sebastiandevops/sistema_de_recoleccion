@@ -17,6 +17,7 @@ Tabla de contenido
 - [Requerimientos funcionales](#requerimientos-funcionales)
 - [Requerimientos no funcionales](#requerimientos-no-funcionales)
 - [Casos de uso](#casos-de-uso)
+- [Estructura del proyecto](#estructura-del-proyecto)
 - [Requisitos (desarrollo)](#requisitos-desarrollo)
 - [Instalación y ejecución (macOS)](#macos)
 - [Instalación y ejecución (Windows)](#windows-powershell--cmd)
@@ -102,6 +103,45 @@ Más casos de uso (reportes, registro de pesos, acumulación y canje de puntos, 
 Diagrama de Clases
 ------------------
 ![Diagrama de Clases](docs/diagrams/clases.jpg)
+
+Estructura del proyecto
+-----------------------
+
+A continuación una guía rápida de las carpetas y archivos más importantes del proyecto con enlaces para saltar directamente a ellos en el repositorio local:
+
+- `app/` — Código principal de la aplicación (controladores, modelos, policies, etc.).
+	- `app/Http/Controllers/` — controladores HTTP (p. ej. `DashboardController.php`, `CollectionController.php`).
+	- `app/Models/` — modelos Eloquent (`User.php`, `Collection.php`).
+	- `app/Policies/` — políticas de autorización (`CollectionPolicy.php`).
+
+- `routes/` — definición de rutas web y de consola:
+	- `routes/web.php` — rutas accesibles por el navegador (dashboard, collections, auth).
+
+- `resources/views/` — vistas Blade (UI):
+	- `resources/views/layouts/` — plantillas globales (p. ej. `navigation.blade.php`, `app.blade.php`).
+	- `resources/views/collections/` — vistas para la funcionalidad de recolecciones (index, create, edit, show).
+	- `resources/views/dashboard.blade.php` — vista del panel principal del usuario.
+
+- `database/` — migraciones, factories y seeders:
+	- `database/migrations/2025_10_04_000100_create_collections_table.php` — migración para la tabla `collections`.
+	- `database/database.sqlite` — archivo SQLite (si lo estás usando en desarrollo).
+
+- `public/` — archivos públicos y assets compilados por Vite.
+
+- `resources/js/` y `resources/css/` — entrada de JavaScript y CSS (Vite + Tailwind).
+
+- `README.md` — documentación del proyecto (este archivo).
+
+Enlaces rápidos (desde la raíz del repo):
+
+- [routes/web.php](routes/web.php)
+- [app/Models/Collection.php](app/Models/Collection.php)
+- [app/Http/Controllers/CollectionController.php](app/Http/Controllers/CollectionController.php)
+- [app/Policies/CollectionPolicy.php](app/Policies/CollectionPolicy.php)
+- [resources/views/collections/index.blade.php](resources/views/collections/index.blade.php)
+- [resources/views/collections/create.blade.php](resources/views/collections/create.blade.php)
+- [resources/views/dashboard.blade.php](resources/views/dashboard.blade.php)
+
 
 Funcionalidades implementadas (MVP actual)
 -----------------------------------------
