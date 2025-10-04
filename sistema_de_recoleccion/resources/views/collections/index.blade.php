@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-4">Mis recolecciones</h1>
+    <h1 class="text-3xl font-extrabold mb-4" style="color:#065f46;padding-left:12px;border-left:4px solid #16a34a;">Mis recolecciones</h1>
 
     <a href="{{ route('collections.create') }}" class="inline-flex items-center px-4 py-2 mb-4 text-sm font-medium rounded shadow" style="background-color:#f59e0b;color:#ffffff;text-decoration:none;">
         Solicitar Recolección
