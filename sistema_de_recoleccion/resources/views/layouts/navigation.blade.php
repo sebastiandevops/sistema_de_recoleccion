@@ -15,6 +15,15 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('collections.index')" :active="request()->routeIs('collections.*')">
+                        {{ __('Mis recolecciones') }}
+                    </x-nav-link>
+                    <a href="{{ route('collections.create') }}" class="inline-flex items-center px-3 py-2 bg-green-600 text-white text-sm font-medium rounded hover:bg-green-700">
+                        + Programar Nueva Recolección
+                    </a>
+                    <a href="{{ route('profile.edit') }}" class="inline-flex items-center px-3 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded hover:bg-gray-300">
+                        Configuración
+                    </a>
                 </div>
             </div>
 
@@ -69,6 +78,15 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('collections.index')" :active="request()->routeIs('collections.*')">
+                {{ __('Mis recolecciones') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('collections.create')">
+                {{ __('+ Programar Nueva Recolección') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('profile.edit')">
+                {{ __('Configuración') }}
             </x-responsive-nav-link>
         </div>
 
