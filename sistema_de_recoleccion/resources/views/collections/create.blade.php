@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="max-w-3xl mx-auto p-6">
-    <h1 class="text-3xl font-extrabold mb-6 pl-3 border-l-4 border-emerald-600 text-emerald-800">Solicitar Recolección</h1>
+    <h1 class="text-3xl font-extrabold mb-6" style="color:#065f46;padding-left:12px;border-left:4px solid #16a34a;">Solicitar Recolección</h1>
 
     <div class="bg-white shadow-sm rounded p-6">
         <form method="POST" action="{{ route('collections.store') }}">
