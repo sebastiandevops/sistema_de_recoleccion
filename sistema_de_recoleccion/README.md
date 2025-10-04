@@ -263,6 +263,114 @@ php artisan serve
 php artisan test
 ```
 
+## Configurar el archivo .env
+
+Antes de ejecutar la aplicación, cada desarrollador debe crear y configurar su propio archivo de entorno `.env`. A continuación hay pasos y ejemplos para hacerlo de forma segura y reproducible.
+
+1) Copiar el ejemplo y generar la APP_KEY
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+2) Base de datos: SQLite (recomendado para desarrollo)
+
+Por simplicidad el proyecto usa SQLite por defecto. Crea el archivo y dale permisos:
+
+```bash
+touch database/database.sqlite
+chmod 664 database/database.sqlite
+# Asegúrate de que en tu .env esté:
+DB_CONNECTION=sqlite
+# y que DB_DATABASE apunte a database/database.sqlite o esté vacío si usas la configuración por defecto
+```
+
+### Notas para usuarios de Windows
+
+Si trabajas en Windows, aquí tienes los comandos equivalentes para crear el archivo SQLite y preparar el `.env`:
+
+PowerShell (recomendado):
+
+```powershell
+# Copiar .env y generar APP_KEY
+Copy-Item -Path .env.example -Destination .env -Force
+php artisan key:generate
+
+# Crear archivo SQLite
+New-Item -Path database\database.sqlite -ItemType File -Force
+# No es necesario chmod en Windows
+
+# Asegúrate en .env:
+# DB_CONNECTION=sqlite
+```
+
+CMD (símbolo del sistema):
+
+```cmd
+copy .env.example .env
+php artisan key:generate
+
+type nul > database\database.sqlite
+```
+
+3) Drivers de sesión/cache/queue
+
+Para desarrollo recomendamos:
+
+```env
+SESSION_DRIVER=file
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
+```
+
+Si prefieres sesiones en base de datos:
+
+```bash
+php artisan session:table
+php artisan migrate
+```
+
+5) Mail (desarrollo)
+
+Para no depender de un servicio externo en desarrollo, usa el driver `log` o `mailtrap`:
+
+```env
+MAIL_MAILER=log
+MAIL_FROM_ADDRESS=no-reply@example.com
+MAIL_FROM_NAME="Proyecto Gestión de Recursos"
+```
+
+6) Archivos públicos y permisos
+
+Si la app necesita servir archivos almacenados, crea el enlace simbólico de storage:
+
+```bash
+php artisan storage:link
+```
+
+7) Variables útiles y URL
+
+```env
+APP_URL=http://127.0.0.1:8000
+VITE_DEV_SERVER_URL=http://127.0.0.1:5173
+FILESYSTEM_DISK=public
+```
+
+8) Ejecutar migraciones y semillas
+
+```bash
+php artisan migrate --seed
+```
+
+9) Errores comunes y soluciones rápidas
+- Si ves `SQLSTATE` o "no se encuentra la base", revisa `DB_CONNECTION` y la ruta a `database/database.sqlite`.
+- Si el botón o estilos no se ven correctamente, ejecuta `npm install` y `npm run dev` y limpia vistas con `php artisan view:clear`.
+- Si `php artisan migrate` falla por permisos, revisa permisos del directorio `database` y `storage`.
+
+Si alguno de tus compañeros sigue teniendo problemas, pídeles que compartan el error exacto (stack trace) y con gusto lo reviso.
+
+
 ## Tests
 
 Para ejecutar la suite de pruebas del proyecto (unitarias y funcionales) desde la raíz del proyecto:
