@@ -48,8 +48,8 @@
             </div>
 
             <div class="mt-6 flex items-center gap-3">
-                <button type="submit" class="inline-flex items-center px-4 py-2 bg-emerald-700 text-white text-sm font-medium rounded shadow hover:bg-emerald-800">Enviar solicitud</button>
-                <a href="{{ route('collections.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-800 text-sm font-medium rounded hover:bg-gray-200">Cancelar</a>
+                <button type="submit" class="inline-flex items-center px-4 py-2 bg-emerald-700 text-white text-sm font-medium rounded shadow hover:bg-emerald-800" style="background-color:#16a34a;color:#ffffff;">Enviar solicitud</button>
+                <a href="{{ route('collections.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-800 text-sm font-medium rounded hover:bg-gray-200" style="background-color:#e5e7eb;color:#111827;">Cancelar</a>
             </div>
         </form>
     </div>
