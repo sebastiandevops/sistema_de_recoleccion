@@ -27,9 +27,9 @@
                     <a href="{{ route('collections.create') }}" class="inline-flex items-center px-3 py-2 text-white text-sm font-medium rounded" style="background-color:#166534;color:#ffffff;">
                         + Programar Nueva Recolección
                     </a>
-                    <a href="{{ route('reports.index') }}" class="inline-flex items-center px-3 py-2 text-white text-sm font-medium rounded" style="background-color:#166534;color:#ffffff;">
+                    <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')" style="color:#ffffff;">
                         Reportes
-                    </a>
+                    </x-nav-link>
                     <a href="{{ route('profile.edit') }}" class="inline-flex items-center px-3 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded hover:bg-gray-300" style="background-color:#e5e7eb;color:#111827;">
                         Configuración
                     </a>
