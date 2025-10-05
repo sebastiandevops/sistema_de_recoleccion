@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\CollectionCancelled;
+use App\Models\User;
+use Illuminate\Support\Facades\Notification;
 
 class CollectionController extends Controller
 {
@@ -83,6 +86,12 @@ class CollectionController extends Controller
 
         $collection->status = 'cancelled';
         $collection->save();
+
+        // Notify admins about the cancellation
+        $admins = User::where('role', 'admin')->get();
+        if ($admins->count()) {
+            Notification::send($admins, new CollectionCancelled($collection));
+        }
 
         return redirect()->route('collections.index')->with('success', 'Recolección cancelada.');
     }
