@@ -100,12 +100,12 @@ Casos de uso principales (resumidos):
 
 Más casos de uso (reportes, registro de pesos, acumulación y canje de puntos, notificaciones por WhatsApp, gestión de empresas recolectoras) pueden agregarse en detalle conforme avance el diseño y las historias de usuario.
 
-![Diagrama de Casos de Uso](docs/diagrams/use-cases.png)
+![Diagrama de Casos de Uso](sistema_de_recoleccion/docs/diagrams/use-cases.png)
 
 
 Diagrama de Clases
 ------------------
-![Diagrama de Clases](docs/diagrams/clases.jpg)
+![Diagrama de Clases](sistema_de_recoleccion/docs/diagrams/clases.jpg)
 
 Estructura del proyecto
 -----------------------
@@ -239,6 +239,75 @@ Archivos relevantes (dónde mirar el código)
 	- `resources/views/dashboard.blade.php` — panel de usuario
 	- `resources/views/collections/*.blade.php` — index, create, show, edit
 	- `resources/views/layouts/navigation.blade.php` — cabecera y navegación (título apilado añadido)
+
+- Reportes CSV mejorados
+	- Los CSV ahora se generan con encabezados y etiquetas en español (por ejemplo `tipo`, `estado`) y los valores `type`/`status` se exportan como `Orgánico`/`Programada`/`Cancelada`, etc.
+	- Los archivos generados se guardan con prefijo por usuario: `user_{id}_report_collections_YYYYMMDD_HHMMSS.csv`. Esto garantiza que cada usuario vea y pueda eliminar únicamente sus reportes.
+	- En la interfaz `Reportes` se muestra la lista de reportes del usuario, botón para generar nuevo CSV, descargar y (si el fichero pertenece al usuario) eliminar.
+
+- Eliminación de reportes
+	- Se añadió un botón "Eliminar" en `resources/views/reports/index.blade.php`. La eliminación está restringida al propietario del fichero (según el prefijo `user_{id}_`).
+
+- Limpieza automática/manual de reportes antiguos
+	- Nuevo comando Artisan: `php artisan reports:clean {--days=30}` que borra reportes en `storage/app/reports` con una antigüedad mayor a N días.
+	- Ejemplo: `php artisan reports:clean --days=90` eliminará reportes con más de 90 días.
+
+- Rol de administrador y helper `hasRole()`
+	- Se agregó una migración para añadir la columna `role` en la tabla `users` y un helper `User::hasRole(string $role)` en el modelo `User`.
+	- Las policies (por ejemplo `CollectionPolicy`) usan este helper para permitir acciones administrativas (editar/eliminar/ver).
+
+- Cancelación de recolecciones (UX + notificaciones)
+	- Se añadió la acción "Cancelar Recolección" en `Mis recolecciones` (visible solo para el propietario o admin y solo si el estado es `Programada`).
+	- La confirmación usa un modal ligero en la interfaz en lugar de `confirm()` para una mejor experiencia.
+	- Cuando se cancela una recolección, se notifica por correo a los usuarios con `role = 'admin'` mediante la notification `CollectionCancelled`.
+
+- Validaciones de formulario
+	- En el formulario `Solicitar Recolección` (`resources/views/collections/create.blade.php`) los campos `frequency` y `scheduled_at` son ahora obligatorios tanto en el frontend (atributo `required`) como en el backend (reglas `required|integer|min:1` y `required|date` en `CollectionController`).
+
+- Tests y factories
+	- Se añadieron pruebas de PHPUnit que cubren la lógica de cancelación y la validación del formulario:
+		- `tests/Feature/CancelCollectionTest.php` — propietario puede cancelar, no propietario no puede, no se puede cancelar si no está programada.
+		- `tests/Feature/CollectionValidationTest.php` — valida que `frequency` y `scheduled_at` son obligatorios al crear.
+	- Se añadió `database/factories/CollectionFactory.php` para facilitar la creación de datos en tests.
+
+Cómo probar rápidamente las nuevas cosas
+--------------------------------------
+
+1) Migraciones (añade la columna `role`):
+
+```bash
+php artisan migrate
+```
+
+2) Generar y descargar un reporte (usar un usuario con recolecciones):
+
+```bash
+php artisan serve
+# entrar a http://127.0.0.1:8000 -> Dashboard -> Reportes
+# Generar nuevo reporte -> Descargar
+```
+
+3) Eliminar un reporte (desde la UI):
+- Solo verás el botón "Eliminar" en los reportes que pertenezcan a tu usuario.
+
+4) Limpiar reportes antiguos:
+
+```bash
+php artisan reports:clean --days=30
+```
+
+5) Correr tests relacionados:
+
+```bash
+./vendor/bin/phpunit --filter CancelCollectionTest
+./vendor/bin/phpunit --filter CollectionValidationTest
+```
+
+Notas de implementación y seguridad
+----------------------------------
+- Los reportes se almacenan en `storage/app/reports`; asegúrate de que el directorio exista y sea escribible por la app.
+- La lógica de autorización usa `CollectionPolicy` y el helper `User::hasRole`. Si prefieres otro esquema de roles (p. ej. paquetes ACL), puedo migrar esa lógica.
+- La notificación por correo usa el mailer configurado (`MAIL_MAILER`); en desarrollo por defecto se usa `log` para no enviar emails reales.
 
 Pruebas y comprobaciones rápidas
 - Para verificar la funcionalidad localmente: crea un usuario (registro), accede a la sección "Mis recolecciones" y prueba crear/editar/ver una recolección. Comprueba que el dashboard muestre las recolecciones y que el enlace del título del proyecto lleva al dashboard.
