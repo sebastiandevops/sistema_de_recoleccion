@@ -81,4 +81,20 @@ class ReportController extends Controller
         }
         return Storage::download($path, $filename);
     }
+
+    // Delete a generated report
+    public function destroy(Request $request, $filename)
+    {
+        $path = 'reports/' . $filename;
+        if (!Storage::exists($path)) {
+            return redirect()->route('reports.index')->with('status', 'report-not-found');
+        }
+
+        // Attempt to delete
+        if (Storage::delete($path)) {
+            return redirect()->route('reports.index')->with('status', 'report-deleted');
+        }
+
+        return redirect()->route('reports.index')->with('status', 'report-delete-failed');
+    }
 }

@@ -8,6 +8,15 @@
         @if(session('status') === 'report-generated')
             <div class="mb-4 text-sm text-green-600">Reporte generado correctamente.</div>
         @endif
+        @if(session('status') === 'report-deleted')
+            <div class="mb-4 text-sm text-green-600">Reporte eliminado correctamente.</div>
+        @endif
+        @if(session('status') === 'report-not-found')
+            <div class="mb-4 text-sm text-yellow-600">Reporte no encontrado.</div>
+        @endif
+        @if(session('status') === 'report-delete-failed')
+            <div class="mb-4 text-sm text-red-600">No se pudo eliminar el reporte. Intenta nuevamente.</div>
+        @endif
 
         <div class="flex items-center justify-between mb-4">
             <p class="text-sm text-gray-600">Genera y descarga reportes CSV con tus recolecciones.</p>
@@ -28,6 +37,12 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <a href="{{ route('reports.download', basename($r['path'])) }}" class="inline-flex items-center px-3 py-2 bg-gray-100 text-gray-800 text-sm font-medium rounded hover:bg-gray-200" style="background-color:#e5e7eb;color:#111827;">Descargar</a>
+
+                            <form method="POST" action="{{ route('reports.destroy', basename($r['path'])) }}" onsubmit="return confirm('¿Eliminar este reporte? Esta acción no se puede deshacer.');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="inline-flex items-center px-3 py-2 bg-red-600 text-white text-sm font-medium rounded hover:bg-red-700">Eliminar</button>
+                            </form>
                         </div>
                     </li>
                 @empty

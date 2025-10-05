@@ -27,4 +27,5 @@ Route::middleware('auth')->group(function () {
     Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
     Route::post('reports', [\App\Http\Controllers\ReportController::class, 'store'])->name('reports.store');
     Route::get('reports/download/{filename}', [\App\Http\Controllers\ReportController::class, 'download'])->name('reports.download');
+    Route::delete('reports/{filename}', [\App\Http\Controllers\ReportController::class, 'destroy'])->name('reports.destroy');
 });
