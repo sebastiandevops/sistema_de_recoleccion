@@ -15,9 +15,6 @@
                             <a href="{{ route('collections.create') }}" class="inline-flex items-center px-3 py-2 bg-green-600 text-white text-sm font-medium rounded hover:bg-green-700" style="background-color:#16a34a;color:#ffffff;">
                                 + Programar Nueva Recolección
                             </a>
-                            <a href="{{ route('profile.edit') }}" class="inline-flex items-center px-3 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded hover:bg-gray-300" style="background-color:#e5e7eb;color:#111827;">
-                                Configuración
-                            </a>
                         </div>
                     </div>
 

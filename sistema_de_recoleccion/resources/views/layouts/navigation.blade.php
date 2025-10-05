@@ -27,6 +27,9 @@
                     <a href="{{ route('collections.create') }}" class="inline-flex items-center px-3 py-2 text-white text-sm font-medium rounded" style="background-color:#166534;color:#ffffff;">
                         + Programar Nueva Recolección
                     </a>
+                    <a href="{{ route('reports.index') }}" class="inline-flex items-center px-3 py-2 text-white text-sm font-medium rounded" style="background-color:#166534;color:#ffffff;">
+                        Reportes
+                    </a>
                     <a href="{{ route('profile.edit') }}" class="inline-flex items-center px-3 py-2 bg-gray-200 text-gray-800 text-sm font-medium rounded hover:bg-gray-300" style="background-color:#e5e7eb;color:#111827;">
                         Configuración
                     </a>
@@ -95,6 +98,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('collections.create')">
                 {{ __('+ Programar Nueva Recolección') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('reports.index')">
+                Reportes
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('profile.edit')">
                 {{ __('Configuración') }}

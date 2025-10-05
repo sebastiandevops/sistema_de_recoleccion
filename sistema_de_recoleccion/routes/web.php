@@ -23,4 +23,8 @@ use App\Http\Controllers\CollectionController;
 
 Route::middleware('auth')->group(function () {
     Route::resource('collections', CollectionController::class);
+    // Reports
+    Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
+    Route::post('reports', [\App\Http\Controllers\ReportController::class, 'store'])->name('reports.store');
+    Route::get('reports/download/{filename}', [\App\Http\Controllers\ReportController::class, 'download'])->name('reports.download');
 });
