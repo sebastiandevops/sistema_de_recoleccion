@@ -70,4 +70,20 @@ class CollectionController extends Controller
         $collection->delete();
         return redirect()->route('collections.index')->with('success', 'Solicitud eliminada.');
     }
+
+    // Cancel a scheduled collection (soft state change)
+    public function cancel(Collection $collection)
+    {
+        $this->authorize('update', $collection);
+
+        // Only allow cancelling if currently scheduled
+        if ($collection->status !== 'scheduled') {
+            return redirect()->route('collections.index')->with('error', 'Solo se pueden cancelar recolecciones programadas.');
+        }
+
+        $collection->status = 'cancelled';
+        $collection->save();
+
+        return redirect()->route('collections.index')->with('success', 'Recolección cancelada.');
+    }
 }

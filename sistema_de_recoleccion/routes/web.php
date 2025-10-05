@@ -23,6 +23,8 @@ use App\Http\Controllers\CollectionController;
 
 Route::middleware('auth')->group(function () {
     Route::resource('collections', CollectionController::class);
+    // Cancel a scheduled collection
+    Route::patch('collections/{collection}/cancel', [\App\Http\Controllers\CollectionController::class, 'cancel'])->name('collections.cancel');
     // Reports
     Route::get('reports', [\App\Http\Controllers\ReportController::class, 'index'])->name('reports.index');
     Route::post('reports', [\App\Http\Controllers\ReportController::class, 'store'])->name('reports.store');
