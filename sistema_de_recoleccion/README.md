@@ -190,6 +190,45 @@ Visualización e interfaz (qué verás en la página)
 - Dashboard: tarjetas resumen con totales y una lista de recolecciones recientes; botones rápidos para crear nueva recolección y editar perfil.
 - Formularios de recolección: campos típicos (tipo, modo, frecuencia/fecha, kilos estimados, notas). En el backend se validan las entradas antes de guardar.
 
+Reportes (CSV)
+----------------
+
+Se ha añadido una funcionalidad básica de reportes que permite a cada usuario generar un CSV con sus recolecciones y descargarlo desde la interfaz.
+
+- Rutas principales:
+	- GET  /reports -> `ReportController@index` (lista reportes generados y botón para crear uno nuevo). Ruta protegida por `auth`.
+	- POST /reports -> `ReportController@store` (genera un CSV con todas las recolecciones del usuario y lo guarda en `storage/app/reports`). Ruta protegida por `auth`.
+	- GET  /reports/download/{filename} -> `ReportController@download` (descarga el CSV). Ruta protegida por `auth`.
+
+- Ubicación de los archivos generados:
+	- Los CSV se guardan en `storage/app/reports/` y pueden descargarse desde la vista de reportes.
+	- Asegúrate de que la carpeta `storage/app/reports` exista y tenga permisos de escritura por el usuario de la aplicación (ej.: `mkdir -p storage/app/reports && chmod -R 775 storage/app/reports`).
+
+- Qué contiene el CSV generado:
+	- Columnas: `id,type,mode,frequency,scheduled_at,kilos,status,notes,created_at`.
+	- Actualmente los valores de `type` y `status` se exportan en su forma raw (p. ej. `organic`, `scheduled`). Si deseas las etiquetas en español en el CSV (p. ej. `Orgánico`, `Programada`), puedo añadir la transformación.
+
+- Interacción en la interfaz:
+	- Se añadió un enlace "Reportes" en la navegación principal. Al acceder verás la lista de reportes disponibles y un botón "Generar nuevo reporte".
+	- Al generar un reporte, el servidor lo crea y la vista de reportes lo listará para su descarga.
+
+- Prueba rápida (local):
+	1. Arranca la app: `php artisan serve`.
+	2. Inicia sesión con un usuario de prueba.
+	3. Visita `Dashboard` → `Reportes` o directamente `http://127.0.0.1:8000/reports`.
+	4. Haz clic en "Generar nuevo reporte" y luego en "Descargar" para obtener el CSV.
+
+Ejemplo de CSV generado
+-----------------------
+
+Ejemplo de cómo se verá el CSV generado (primera fila con encabezados y una fila de ejemplo):
+
+```
+id,type,mode,frequency,scheduled_at,kilos,status,notes,created_at
+123,organic,programada,2,2025-10-07 08:00,12.5,scheduled,"Entrega en portería",2025-10-01 10:23:45
+```
+
+ 
 Archivos relevantes (dónde mirar el código)
 - Rutas: `routes/web.php`
 - Controladores: `app/Http/Controllers/DashboardController.php`, `app/Http/Controllers/CollectionController.php`
