@@ -19,14 +19,11 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" style="color:#ffffff;">
-                        {{ __('Dashboard') }}
+                        {{ __('Inicio') }}
                     </x-nav-link>
                     <x-nav-link :href="route('collections.index')" :active="request()->routeIs('collections.*')" style="color:#ffffff;">
                         {{ __('Mis recolecciones') }}
                     </x-nav-link>
-                    <a href="{{ route('collections.create') }}" class="inline-flex items-center px-3 py-2 text-white text-sm font-medium rounded" style="background-color:#166534;color:#ffffff;">
-                        + Programar Nueva Recolección
-                    </a>
                     <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')" style="color:#ffffff;">
                         Reportes
                     </x-nav-link>
@@ -95,9 +92,6 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('collections.index')" :active="request()->routeIs('collections.*')">
                 {{ __('Mis recolecciones') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('collections.create')">
-                {{ __('+ Programar Nueva Recolección') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('reports.index')">
                 Reportes
