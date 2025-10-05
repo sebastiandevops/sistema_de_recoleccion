@@ -138,12 +138,13 @@ A continuación una guía rápida de las carpetas y archivos más importantes de
 Enlaces rápidos (desde la raíz del repo):
 
 - [routes/web.php](routes/web.php)
-- [app/Models/Collection.php](app/Models/Collection.php)
-- [app/Http/Controllers/CollectionController.php](app/Http/Controllers/CollectionController.php)
-- [app/Policies/CollectionPolicy.php](app/Policies/CollectionPolicy.php)
-- [resources/views/collections/index.blade.php](resources/views/collections/index.blade.php)
-- [resources/views/collections/create.blade.php](resources/views/collections/create.blade.php)
-- [resources/views/dashboard.blade.php](resources/views/dashboard.blade.php)
+- [routes/web.php](sistema_de_recoleccion/routes/web.php)
+- [app/Models/Collection.php](sistema_de_recoleccion/app/Models/Collection.php)
+- [app/Http/Controllers/CollectionController.php](sistema_de_recoleccion/app/Http/Controllers/CollectionController.php)
+- [app/Policies/CollectionPolicy.php](sistema_de_recoleccion/app/Policies/CollectionPolicy.php)
+- [resources/views/collections/index.blade.php](sistema_de_recoleccion/resources/views/collections/index.blade.php)
+- [resources/views/collections/create.blade.php](sistema_de_recoleccion/resources/views/collections/create.blade.php)
+- [resources/views/dashboard.blade.php](sistema_de_recoleccion/resources/views/dashboard.blade.php)
 
 
 Funcionalidades implementadas (MVP actual)
@@ -205,8 +206,8 @@ Se ha añadido una funcionalidad básica de reportes que permite a cada usuario 
 	- Asegúrate de que la carpeta `storage/app/reports` exista y tenga permisos de escritura por el usuario de la aplicación (ej.: `mkdir -p storage/app/reports && chmod -R 775 storage/app/reports`).
 
 - Qué contiene el CSV generado:
-	- Columnas: `id,type,mode,frequency,scheduled_at,kilos,status,notes,created_at`.
-	- Actualmente los valores de `type` y `status` se exportan en su forma raw (p. ej. `organic`, `scheduled`). Si deseas las etiquetas en español en el CSV (p. ej. `Orgánico`, `Programada`), puedo añadir la transformación.
+	- Columnas (encabezados en el CSV): `id,tipo,modo,frecuencia,programado_en,kilos,estado,notas,creado_en`.
+	- Los CSV ahora exportan las etiquetas en español para `tipo` y `estado` (por ejemplo `Orgánico`, `Programada`, `Cancelada`).
 
 - Interacción en la interfaz:
 	- Se añadió un enlace "Reportes" en la navegación principal. Al acceder verás la lista de reportes disponibles y un botón "Generar nuevo reporte".
@@ -224,8 +225,8 @@ Ejemplo de CSV generado
 Ejemplo de cómo se verá el CSV generado (primera fila con encabezados y una fila de ejemplo):
 
 ```
-id,type,mode,frequency,scheduled_at,kilos,status,notes,created_at
-123,organic,programada,2,2025-10-07 08:00,12.5,scheduled,"Entrega en portería",2025-10-01 10:23:45
+id,tipo,modo,frecuencia,programado_en,kilos,estado,notas,creado_en
+123,Orgánico,Programada,2,2025-10-07 08:00,12.5,Programada,"Entrega en portería",2025-10-01 10:23:45
 ```
 
  

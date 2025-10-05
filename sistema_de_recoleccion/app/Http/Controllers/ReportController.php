@@ -49,8 +49,8 @@ class ReportController extends Controller
         }
 
         $fp = fopen($path, 'w');
-        // header (labels in Spanish)
-        fputcsv($fp, ['id', 'tipo', 'modo', 'frecuencia', 'fecha_programada', 'kilos', 'estado', 'notas', 'creado_en']);
+    // header (labels in Spanish) - match README headers
+    fputcsv($fp, ['id', 'tipo', 'modo', 'frecuencia', 'programado_en', 'kilos', 'estado', 'notas', 'creado_en']);
 
         $typeLabels = [
             'organic' => 'Orgánico',
@@ -73,7 +73,7 @@ class ReportController extends Controller
                 $c->kilos,
                 $statusLabels[$c->status] ?? $c->status,
                 $c->notes,
-                $c->created_at,
+                optional($c->created_at)->format('Y-m-d H:i:s'),
             ]);
         }
 
