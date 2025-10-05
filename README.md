@@ -341,6 +341,72 @@ Requisitos (desarrollo)
 - Git
 
 
+Instalar prerequisitos (macOS y Windows)
+----------------------------------------
+Abajo encontrarás comandos para instalar las herramientas necesarias en macOS (con Homebrew) y Windows (PowerShell con Chocolatey). Estas instrucciones están pensadas para entornos de desarrollo locales.
+
+macOS (Homebrew)
+```bash
+# 1) Instala Homebrew (si no lo tienes):
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 2) Instala PHP, Composer y Git
+brew update
+brew install php@8.2
+brew link --force --overwrite php@8.2
+php -v
+
+# Composer
+curl -sS https://getcomposer.org/installer | php
+mv composer.phar /usr/local/bin/composer
+composer --version
+
+# Git (si no lo tienes)
+brew install git
+
+# 3) Instala Node.js (recomendado: nvm para gestionar versiones)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.4/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+nvm install 18
+nvm use 18
+node -v
+npm -v
+```
+
+Windows (PowerShell + Chocolatey)
+```powershell
+# Ejecutar PowerShell como Administrador
+
+# 1) Instala Chocolatey (si no lo tienes):
+Set-ExecutionPolicy Bypass -Scope Process -Force; 
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; 
+iwr https://community.chocolatey.org/install.ps1 -UseBasicParsing | iex
+
+# 2) Instala PHP, Composer y Git
+choco install php --version=8.2 -y
+refreshenv
+php -v
+
+# Composer
+choco install composer -y
+refreshenv
+composer --version
+
+# Git
+choco install git -y
+
+# 3) Instala Node.js (recomendado: nvm-windows)
+choco install nvm -y
+refreshenv
+# Reinicia la terminal para que nvm esté disponible
+nvm install 18.17.1
+nvm use 18.17.1
+node -v
+npm -v
+```
+
+
 ## Instalación y ejecución (macOS)
 
 ```bash
