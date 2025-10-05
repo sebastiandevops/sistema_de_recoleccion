@@ -107,44 +107,61 @@ Diagrama de Clases
 ------------------
 ![Diagrama de Clases](sistema_de_recoleccion/docs/diagrams/clases.jpg)
 
+
 Estructura del proyecto
 -----------------------
 
-A continuación una guía rápida de las carpetas y archivos más importantes del proyecto con enlaces para saltar directamente a ellos en el repositorio local:
+A continuación una guía rápida de las carpetas y archivos más importantes del proyecto con enlaces corregidos (apuntan a la subcarpeta `sistema_de_recoleccion/` donde reside la app en este repositorio):
 
-- `app/` — Código principal de la aplicación (controladores, modelos, policies, etc.).
-	- `app/Http/Controllers/` — controladores HTTP (p. ej. `DashboardController.php`, `CollectionController.php`).
-	- `app/Models/` — modelos Eloquent (`User.php`, `Collection.php`).
-	- `app/Policies/` — políticas de autorización (`CollectionPolicy.php`).
+- `sistema_de_recoleccion/app/` — Código principal de la aplicación (controladores, modelos, policies, comandos de consola, notificaciones).
+	- `sistema_de_recoleccion/app/Http/Controllers/` — controladores HTTP (ej.: `DashboardController.php`, `CollectionController.php`, `ReportController.php`).
+	- `sistema_de_recoleccion/app/Models/` — modelos Eloquent (`User.php`, `Collection.php`).
+	- `sistema_de_recoleccion/app/Policies/` — políticas de autorización (`CollectionPolicy.php`).
+	- `sistema_de_recoleccion/app/Console/Commands/` — comandos artisan (ej.: `CleanOldReports.php`).
+	- `sistema_de_recoleccion/app/Notifications/` — notificaciones (ej.: `CollectionCancelled.php`).
 
-- `routes/` — definición de rutas web y de consola:
-	- `routes/web.php` — rutas accesibles por el navegador (dashboard, collections, auth).
+- `sistema_de_recoleccion/routes/` — definición de rutas web y de consola:
+	- `sistema_de_recoleccion/routes/web.php` — rutas accesibles por el navegador (dashboard, collections, reports, auth).
 
-- `resources/views/` — vistas Blade (UI):
-	- `resources/views/layouts/` — plantillas globales (p. ej. `navigation.blade.php`, `app.blade.php`).
-	- `resources/views/collections/` — vistas para la funcionalidad de recolecciones (index, create, edit, show).
-	- `resources/views/dashboard.blade.php` — vista del panel principal del usuario.
+- `sistema_de_recoleccion/resources/views/` — vistas Blade (UI):
+	- `sistema_de_recoleccion/resources/views/layouts/` — plantillas globales (p. ej. `navigation.blade.php`, `app.blade.php`).
+	- `sistema_de_recoleccion/resources/views/collections/` — vistas para la funcionalidad de recolecciones (index, create, edit, show).
+	- `sistema_de_recoleccion/resources/views/reports/` — vistas de reportes (ej.: `index.blade.php`).
+	- `sistema_de_recoleccion/resources/views/dashboard.blade.php` — vista del panel principal del usuario.
 
-- `database/` — migraciones, factories y seeders:
-	- `database/migrations/2025_10_04_000100_create_collections_table.php` — migración para la tabla `collections`.
-	- `database/database.sqlite` — archivo SQLite (si lo estás usando en desarrollo).
+- `sistema_de_recoleccion/database/` — migraciones, factories y seeders:
+	- `sistema_de_recoleccion/database/migrations/2025_10_04_000100_create_collections_table.php` — migración para la tabla `collections`.
+	- `sistema_de_recoleccion/database/migrations/2025_10_04_100000_add_role_to_users.php` — migración que añadió el campo `role` a `users`.
+	- `sistema_de_recoleccion/database/factories/CollectionFactory.php` — fábrica para `Collection` usada en tests.
+	- `sistema_de_recoleccion/database/database.sqlite` — archivo SQLite (si lo estás usando en desarrollo).
 
-- `public/` — archivos públicos y assets compilados por Vite.
+- `sistema_de_recoleccion/public/` — archivos públicos y assets compilados por Vite.
 
-- `resources/js/` y `resources/css/` — entrada de JavaScript y CSS (Vite + Tailwind).
+- `sistema_de_recoleccion/resources/js/` y `sistema_de_recoleccion/resources/css/` — entrada de JavaScript y CSS (Vite + Tailwind).
 
-- `README.md` — documentación del proyecto (este archivo).
+- `storage/app/reports/` — carpeta donde se guardan los CSV generados por cada usuario (asegúrate de crearla y darle permisos de escritura en desarrollo).
+
+- `sistema_de_recoleccion/tests/` — pruebas PHPUnit:
+	- `sistema_de_recoleccion/tests/Feature/CancelCollectionTest.php` — pruebas de cancelación de recolecciones.
+	- `sistema_de_recoleccion/tests/Feature/CollectionValidationTest.php` — pruebas de validación de formularios.
 
 Enlaces rápidos (desde la raíz del repo):
 
-- [routes/web.php](routes/web.php)
 - [routes/web.php](sistema_de_recoleccion/routes/web.php)
 - [app/Models/Collection.php](sistema_de_recoleccion/app/Models/Collection.php)
 - [app/Http/Controllers/CollectionController.php](sistema_de_recoleccion/app/Http/Controllers/CollectionController.php)
+- [app/Http/Controllers/ReportController.php](sistema_de_recoleccion/app/Http/Controllers/ReportController.php)
 - [app/Policies/CollectionPolicy.php](sistema_de_recoleccion/app/Policies/CollectionPolicy.php)
+- [app/Console/Commands/CleanOldReports.php](sistema_de_recoleccion/app/Console/Commands/CleanOldReports.php)
+- [app/Notifications/CollectionCancelled.php](sistema_de_recoleccion/app/Notifications/CollectionCancelled.php)
 - [resources/views/collections/index.blade.php](sistema_de_recoleccion/resources/views/collections/index.blade.php)
-- [resources/views/collections/create.blade.php](sistema_de_recoleccion/resources/views/collections/create.blade.php)
+- [resources/views/reports/index.blade.php](sistema_de_recoleccion/resources/views/reports/index.blade.php)
 - [resources/views/dashboard.blade.php](sistema_de_recoleccion/resources/views/dashboard.blade.php)
+- [database/migrations/2025_10_04_000100_create_collections_table.php](sistema_de_recoleccion/database/migrations/2025_10_04_000100_create_collections_table.php)
+- [database/migrations/2025_10_04_100000_add_role_to_users.php](sistema_de_recoleccion/database/migrations/2025_10_04_100000_add_role_to_users.php)
+- [database/factories/CollectionFactory.php](sistema_de_recoleccion/database/factories/CollectionFactory.php)
+- [tests/Feature/CancelCollectionTest.php](sistema_de_recoleccion/tests/Feature/CancelCollectionTest.php)
+- [tests/Feature/CollectionValidationTest.php](sistema_de_recoleccion/tests/Feature/CollectionValidationTest.php)
 
 
 Funcionalidades implementadas (MVP actual)
@@ -313,11 +330,6 @@ Notas de implementación y seguridad
 Pruebas y comprobaciones rápidas
 - Para verificar la funcionalidad localmente: crea un usuario (registro), accede a la sección "Mis recolecciones" y prueba crear/editar/ver una recolección. Comprueba que el dashboard muestre las recolecciones y que el enlace del título del proyecto lleva al dashboard.
 
-¿Quieres que también:
-- Cambie el texto `{{ __('Dashboard') }}` a `{{ __('Inicio') }}` en la navegación y en la vista `dashboard.blade.php`? (Puedo hacerlo y actualizar las traducciones si lo deseas.)
-- Añada el campo `role` al modelo `User` y el helper `hasRole()` para completar la lógica de administrador en las policies?
-
-
 
 Requerimientos no funcionales
 ----------------------------
@@ -411,7 +423,7 @@ npm -v
 
 ```bash
 # Sitúate en la raíz del proyecto (donde está artisan)
-cd /Users/sebastian/estudio/repos/sistema_de_recoleccion/sistema_de_recoleccion
+cd /ruta/al/codigoFuente/sistema_de_recoleccion/sistema_de_recoleccion
 
 # 1) Instala dependencias PHP
 composer install
