@@ -57,11 +57,10 @@
                             <a href="{{ route('collections.edit', $c) }}" class="inline-block px-3 py-1 text-sm rounded mr-2" style="background-color:#c7f0d6;color:#065f46;text-decoration:none;">Editar</a>
 
                             @if($c->status === 'scheduled')
-                                <form method="POST" action="{{ route('collections.cancel', $c) }}" onsubmit="return confirm('¿Cancelar esta recolección?');" style="display:inline-block;">
-                                    @csrf
-                                    @method('PATCH')
-                                    <button type="submit" class="inline-block px-3 py-1 text-sm rounded" style="background-color:#f87171;color:#ffffff;">Cancelar Recolección</button>
-                                </form>
+                                @can('update', $c)
+                                    <!-- Cancel button triggers modal -->
+                                    <button type="button" class="inline-block px-3 py-1 text-sm rounded cancel-btn" data-action="{{ route('collections.cancel', $c) }}" style="background-color:#f87171;color:#ffffff;">Cancelar Recolección</button>
+                                @endcan
                             @endif
                         </td>
                     </tr>
@@ -75,4 +74,40 @@
         <p>No hay solicitudes registradas.</p>
     @endif
 </div>
+<!-- Modal markup (hidden by default) -->
+<div id="cancel-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;z-index:60;">
+    <div style="background:#fff;padding:20px;border-radius:8px;max-width:420px;margin:0 auto;">
+        <h3 style="font-weight:700;margin-bottom:8px;color:#111827;">Confirmar cancelación</h3>
+        <p style="margin-bottom:16px;color:#374151;">¿Estás seguro de que deseas cancelar esta recolección? Esta acción se puede revertir desde la edición.</p>
+        <div style="display:flex;gap:8px;justify-content:flex-end;">
+            <button id="cancel-cancel" type="button" style="padding:8px 12px;background:#e5e7eb;border-radius:6px;color:#111827;">Cerrar</button>
+            <form id="cancel-form" method="POST" action="" style="margin:0;">
+                @csrf
+                @method('PATCH')
+                <button type="submit" style="padding:8px 12px;background:#f87171;border-radius:6px;color:#fff;border:none;">Confirmar cancelación</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var modal = document.getElementById('cancel-modal');
+    var cancelForm = document.getElementById('cancel-form');
+    var closeBtn = document.getElementById('cancel-cancel');
+
+    document.querySelectorAll('.cancel-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var action = this.getAttribute('data-action');
+            cancelForm.setAttribute('action', action);
+            modal.style.display = 'flex';
+        });
+    });
+
+    closeBtn.addEventListener('click', function () {
+        modal.style.display = 'none';
+    });
+});
+</script>
+
 @endsection
