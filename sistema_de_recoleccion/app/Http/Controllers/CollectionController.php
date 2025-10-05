@@ -25,8 +25,8 @@ class CollectionController extends Controller
         $data = $request->validate([
             'type' => 'required|string',
             'mode' => 'nullable|string',
-            'frequency' => 'nullable|integer',
-            'scheduled_at' => 'nullable|date',
+            'frequency' => 'required|integer|min:1',
+            'scheduled_at' => 'required|date',
             'notes' => 'nullable|string',
         ]);
 
@@ -54,8 +54,8 @@ class CollectionController extends Controller
         $data = $request->validate([
             'type' => 'required|string',
             'mode' => 'nullable|string',
-            'frequency' => 'nullable|integer',
-            'scheduled_at' => 'nullable|date',
+            'frequency' => 'required|integer|min:1',
+            'scheduled_at' => 'required|date',
             'notes' => 'nullable|string',
             'status' => 'nullable|string',
             'kilos' => 'nullable|numeric',

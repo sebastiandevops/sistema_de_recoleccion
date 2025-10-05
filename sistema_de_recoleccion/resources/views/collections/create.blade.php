@@ -30,13 +30,15 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Frecuencia (veces/semana)</label>
-                    <input type="number" name="frequency" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:ring-emerald-500 focus:border-emerald-500" />
+                    <input type="number" name="frequency" required min="1" value="{{ old('frequency') }}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:ring-emerald-500 focus:border-emerald-500" />
+                    <p class="text-xs text-gray-500 mt-1">Indica cuántas veces por semana deseas la recolección (mínimo 1).</p>
                     @error('frequency') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Fecha programada</label>
-                    <input type="datetime-local" name="scheduled_at" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:ring-emerald-500 focus:border-emerald-500" />
+                    <input type="datetime-local" name="scheduled_at" required value="{{ old('scheduled_at') }}" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:ring-emerald-500 focus:border-emerald-500" />
+                    <p class="text-xs text-gray-500 mt-1">Selecciona la fecha y hora en que deseas que ocurra la recolección.</p>
                     @error('scheduled_at') <p class="text-sm text-red-600 mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
