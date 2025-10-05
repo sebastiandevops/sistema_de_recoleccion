@@ -9,16 +9,16 @@ class CollectionPolicy
 {
     public function view(User $user, Collection $collection)
     {
-        return $user->id === $collection->user_id || $user->hasRole('admin');
+        return $user->id === $collection->user_id || (method_exists($user, 'hasRole') && $user->hasRole('admin'));
     }
 
     public function update(User $user, Collection $collection)
     {
-        return $user->id === $collection->user_id || $user->hasRole('admin');
+        return $user->id === $collection->user_id || (method_exists($user, 'hasRole') && $user->hasRole('admin'));
     }
 
     public function delete(User $user, Collection $collection)
     {
-        return $user->id === $collection->user_id || $user->hasRole('admin');
+        return $user->id === $collection->user_id || (method_exists($user, 'hasRole') && $user->hasRole('admin'));
     }
 }
