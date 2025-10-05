@@ -45,7 +45,14 @@
                         @forelse($recent as $r)
                             <li class="border-b py-2">
                                 <a href="{{ route('collections.show', $r) }}" class="font-semibold">Solicitud #{{ $r->id }}</a>
-                                — {{ $r->type }} — {{ $r->status }} — {{ $r->kilos ?? '-' }} kg
+                                @php
+                                    $statusLabels = [
+                                        'scheduled' => 'Programada',
+                                        'completed' => 'Completada',
+                                        'cancelled' => 'Cancelada',
+                                    ];
+                                @endphp
+                                — {{ $r->type }} — {{ $statusLabels[$r->status] ?? $r->status }} — {{ $r->kilos ?? '-' }} kg
                             </li>
                         @empty
                             <li>No hay recolecciones recientes.</li>

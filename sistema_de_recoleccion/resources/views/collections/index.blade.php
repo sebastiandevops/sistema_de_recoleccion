@@ -30,7 +30,14 @@
                         <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $c->frequency ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ optional($c->scheduled_at)->format('Y-m-d H:i') }}</td>
                         <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $c->kilos ?? '-' }}</td>
-                        <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $c->status }}</td>
+                        @php
+                            $statusLabels = [
+                                'scheduled' => 'Programada',
+                                'completed' => 'Completada',
+                                'cancelled' => 'Cancelada',
+                            ];
+                        @endphp
+                        <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $statusLabels[$c->status] ?? $c->status }}</td>
                         <td class="px-6 py-4 text-sm">
                             <a href="{{ route('collections.show', $c) }}" class="inline-block px-3 py-1 mr-2 text-sm rounded" style="background-color:#e5e7eb;color:#111827;text-decoration:none;">Ver</a>
                             <a href="{{ route('collections.edit', $c) }}" class="inline-block px-3 py-1 text-sm rounded" style="background-color:#c7f0d6;color:#065f46;text-decoration:none;">Editar</a>

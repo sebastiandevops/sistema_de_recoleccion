@@ -41,8 +41,16 @@
             <div>
                 <dt class="font-medium text-gray-900">Estado</dt>
                 <dd class="mt-1">
+                    @php
+                        $statusLabels = [
+                            'scheduled' => 'Programada',
+                            'completed' => 'Completada',
+                            'cancelled' => 'Cancelada',
+                        ];
+                        $statusLabel = $statusLabels[$collection->status] ?? ucfirst($collection->status);
+                    @endphp
                     <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold text-white" style="background-color:#1f2937;">
-                        {{ ucfirst($collection->status) }}
+                        {{ $statusLabel }}
                     </span>
                 </dd>
             </div>
