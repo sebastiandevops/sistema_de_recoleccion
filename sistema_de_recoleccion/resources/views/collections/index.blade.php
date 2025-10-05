@@ -25,7 +25,14 @@
                 <tbody class="bg-white divide-y divide-gray-200">
                 @foreach($collections as $c)
                     <tr>
-                        <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $c->type }}</td>
+                        @php
+                            $typeLabels = [
+                                'organic' => 'Orgánico',
+                                'inorganic' => 'Inorgánico',
+                                'hazardous' => 'Peligroso',
+                            ];
+                        @endphp
+                        <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $typeLabels[$c->type] ?? $c->type }}</td>
                         <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $c->mode }}</td>
                         <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ $c->frequency ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-normal text-sm text-gray-900">{{ optional($c->scheduled_at)->format('Y-m-d H:i') }}</td>

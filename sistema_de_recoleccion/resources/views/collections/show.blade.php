@@ -10,7 +10,14 @@
                 <p class="text-sm text-gray-500">Detalles de la solicitud</p>
                 <div class="mt-2 flex items-center gap-3">
                     <span class="text-lg font-semibold">Tipo:</span>
-                    <span class="text-md">{{ ucfirst($collection->type) }}</span>
+                    @php
+                        $typeLabels = [
+                            'organic' => 'Orgánico',
+                            'inorganic' => 'Inorgánico',
+                            'hazardous' => 'Peligroso',
+                        ];
+                    @endphp
+                    <span class="text-md">{{ $typeLabels[$collection->type] ?? ucfirst($collection->type) }}</span>
                     <span class="ms-6 text-lg font-semibold">Modo:</span>
                     <span class="text-md">{{ ucfirst($collection->mode) }}</span>
                 </div>

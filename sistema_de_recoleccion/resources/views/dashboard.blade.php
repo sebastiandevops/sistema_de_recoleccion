@@ -52,7 +52,14 @@
                                         'cancelled' => 'Cancelada',
                                     ];
                                 @endphp
-                                — {{ $r->type }} — {{ $statusLabels[$r->status] ?? $r->status }} — {{ $r->kilos ?? '-' }} kg
+                                @php
+                                    $typeLabels = [
+                                        'organic' => 'Orgánico',
+                                        'inorganic' => 'Inorgánico',
+                                        'hazardous' => 'Peligroso',
+                                    ];
+                                @endphp
+                                — {{ $typeLabels[$r->type] ?? $r->type }} — {{ $statusLabels[$r->status] ?? $r->status }} — {{ $r->kilos ?? '-' }} kg
                             </li>
                         @empty
                             <li>No hay recolecciones recientes.</li>
