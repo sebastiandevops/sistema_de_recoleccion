@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -49,5 +50,11 @@ class User extends Authenticatable
     public function collections()
     {
         return $this->hasMany(Collection::class);
+    }
+
+    // Simple role helper used by policies
+    public function hasRole(string $role): bool
+    {
+        return $this->role === $role;
     }
 }
