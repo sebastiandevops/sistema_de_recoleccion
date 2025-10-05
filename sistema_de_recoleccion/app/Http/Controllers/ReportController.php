@@ -11,7 +11,12 @@ class ReportController extends Controller
     // List available reports and show button to generate new
     public function index(Request $request)
     {
-        $files = Storage::files('reports');
+        $user = $request->user();
+        $all = Storage::files('reports');
+        // only files that belong to this user (prefix user_{id}_)
+        $files = array_values(array_filter($all, function ($p) use ($user) {
+            return str_starts_with(basename($p), 'user_'.$user->id.'_');
+        }));
         // sort by newest
         usort($files, function ($a, $b) {
             return Storage::lastModified($b) <=> Storage::lastModified($a);
@@ -32,10 +37,10 @@ class ReportController extends Controller
     // Generate a CSV report with the authenticated user's collections
     public function store(Request $request)
     {
-        $user = $request->user();
-        $collections = Collection::where('user_id', $user->id)->get();
+    $user = $request->user();
+    $collections = Collection::where('user_id', $user->id)->get();
 
-        $filename = 'report_collections_' . now()->format('Ymd_His') . '.csv';
+    $filename = 'user_' . $user->id . '_report_collections_' . now()->format('Ymd_His') . '.csv';
         $path = storage_path('app/reports/' . $filename);
 
         // ensure directory exists
@@ -44,18 +49,29 @@ class ReportController extends Controller
         }
 
         $fp = fopen($path, 'w');
-        // header
-        fputcsv($fp, ['id', 'type', 'mode', 'frequency', 'scheduled_at', 'kilos', 'status', 'notes', 'created_at']);
+        // header (labels in Spanish)
+        fputcsv($fp, ['id', 'tipo', 'modo', 'frecuencia', 'fecha_programada', 'kilos', 'estado', 'notas', 'creado_en']);
+
+        $typeLabels = [
+            'organic' => 'Orgánico',
+            'inorganic' => 'Inorgánico',
+            'hazardous' => 'Peligroso',
+        ];
+        $statusLabels = [
+            'scheduled' => 'Programada',
+            'completed' => 'Completada',
+            'cancelled' => 'Cancelada',
+        ];
 
         foreach ($collections as $c) {
             fputcsv($fp, [
                 $c->id,
-                $c->type,
+                $typeLabels[$c->type] ?? $c->type,
                 $c->mode,
                 $c->frequency,
                 optional($c->scheduled_at)->format('Y-m-d H:i:s'),
                 $c->kilos,
-                $c->status,
+                $statusLabels[$c->status] ?? $c->status,
                 $c->notes,
                 $c->created_at,
             ]);
@@ -87,6 +103,12 @@ class ReportController extends Controller
     {
         $path = 'reports/' . $filename;
         if (!Storage::exists($path)) {
+            return redirect()->route('reports.index')->with('status', 'report-not-found');
+        }
+
+        // Only allow owner to delete (filename starts with user_{id}_)
+        $user = $request->user();
+        if (!str_starts_with($filename, 'user_'.$user->id.'_')) {
             return redirect()->route('reports.index')->with('status', 'report-not-found');
         }
 
