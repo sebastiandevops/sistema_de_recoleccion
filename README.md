@@ -20,7 +20,12 @@ Tabla de contenido
 - [Requerimientos funcionales](#requerimientos-funcionales)
 - [Requerimientos no funcionales](#requerimientos-no-funcionales)
 - [Casos de uso](#casos-de-uso)
+- [Diagrama de Clases](#diagrama-de-clases)
 - [Estructura del proyecto](#estructura-del-proyecto)
+- [Funcionalidades implementadas (MVP actual)](#funcionalidades-implementadas-mvp-actual)
+- [Notas de autorización](#notas-de-autorización)
+- [Visualización e interfaz](#visualización-e-interfaz)
+- [Reportes (CSV)](#reportes-csv)
 - [Requisitos (desarrollo)](#requisitos-desarrollo)
 - [Instalación y ejecución (macOS)](#macos)
 - [Instalación y ejecución (Windows)](#windows-powershell--cmd)
@@ -52,6 +57,19 @@ Los requerimientos funcionales (RF) principales son:
 - RF6: El sistema debe implementar autenticación para operarios y administradores.
 - RF7: El sistema debe manejar perfiles con roles (administrador, operario) y restricciones de acceso según rol.
 
+Requerimientos no funcionales
+----------------------------
+
+Resumen de aspectos no funcionales importantes:
+
+- Usabilidad: interfaz intuitiva y procedimientos de registro de recolección en máximo 3 pasos.
+- Rendimiento: tiempos de carga y respuesta máximos definidos (p.ej. <3s para páginas, <2s para consultas simples).
+- Seguridad: autenticación segura, control de acceso por roles, cifrado y protección contra inyección SQL y ataques de fuerza bruta.
+- Disponibilidad: nivel objetivo de disponibilidad del 99.5% y tolerancia a fallos.
+- Escalabilidad: soporte para crecimiento en usuarios, rutas y empresas recolectoras.
+- Mantenibilidad: código modular y documentado, fácil de extender.
+- Compatibilidad: soporte para navegadores modernos y dispositivos móviles.
+
 Casos de uso
 -----------------------
 
@@ -64,7 +82,7 @@ Actores identificados:
 - Sistema externo (Tiendas colaboradoras): canje de puntos.
 - Empresa recolectora: su interacción se gestiona vía administradores/operarios para asignación y gestión de rutas.
 
-Casos de uso principales (resumidos):
+Casos de uso principales:
 
 - CU1 — Autenticar Usuario (RF6)
 	- Actor(es): Administrador, Operario, Usuario.
@@ -98,15 +116,12 @@ Casos de uso principales (resumidos):
 	- Flujos alternativos: conflictos de programación o recursos insuficientes.
 	- Postcondición: rutas actualizadas y asignadas.
 
-Más casos de uso (reportes, registro de pesos, acumulación y canje de puntos, notificaciones por WhatsApp, gestión de empresas recolectoras) pueden agregarse en detalle conforme avance el diseño y las historias de usuario.
-
 ![Diagrama de Casos de Uso](sistema_de_recoleccion/docs/diagrams/use-cases.png)
 
 
 Diagrama de Clases
 ------------------
 ![Diagrama de Clases](sistema_de_recoleccion/docs/diagrams/clases.jpg)
-
 
 Estructura del proyecto
 -----------------------
@@ -199,10 +214,13 @@ Las rutas principales creadas y su comportamiento son:
 	- Cierra sesión del usuario autenticado.
 
 Notas de autorización
+---------------------
+
 - Todas las rutas relacionadas con `collections` y el `dashboard` están protegidas por middleware `auth`.
 - Existe una `CollectionPolicy` que restringe acciones sensibles (editar/eliminar/ver) al propietario de la recolección o a un usuario con rol admin. (Actualmente el chequeo de rol `hasRole('admin')` está preparado en la policy; si deseas, puedo añadir un campo `role` al modelo `User` y el helper `hasRole()` para completar la lógica).
 
-Visualización e interfaz (qué verás en la página)
+Visualización e interfaz
+------------------------
 - Barra superior (desktop): color verde (#16a34a) con el logo a la izquierda. Junto al logo aparece el título apilado "Proyecto" / "Gestión de Recursos" que enlaza al dashboard. A la derecha están los enlaces de navegación: Inicio (Dashboard), Mis recolecciones, + Programar Nueva Recolección y Configuración. El menú de usuario incluye nombre y opción de cierre de sesión.
 - Responsive (móvil): la navegación se colapsa en un botón "hamburger"; al abrirse muestra el título del proyecto en la parte superior del menú y los mismos enlaces (Inicio, Mis recolecciones, + Programar, Configuración). Se añadieron estilos inline para asegurar contraste aun si los assets de Tailwind no se compilan.
 - Dashboard: tarjetas resumen con totales y una lista de recolecciones recientes; botones rápidos para crear nueva recolección y editar perfil.
@@ -248,15 +266,17 @@ id,tipo,modo,frecuencia,programado_en,kilos,estado,notas,creado_en
 
  
 Archivos relevantes (dónde mirar el código)
-- Rutas: `routes/web.php`
-- Controladores: `app/Http/Controllers/DashboardController.php`, `app/Http/Controllers/CollectionController.php`
-- Modelos: `app/Models/Collection.php`, `app/Models/User.php` (relación collections)
-- Policies: `app/Policies/CollectionPolicy.php`
-- Migraciones: `database/migrations/2025_10_04_000100_create_collections_table.php` (y otras migraciones agregadas)
+-------------------------------------------
+
+- Rutas: [routes/web.php](sistema_de_recoleccion/routes/web.php)
+- Controladores: [app/Http/Controllers/DashboardController.php](sistema_de_recoleccion/app/Http/Controllers/DashboardController.php), [app/Http/Controllers/CollectionController.php](sistema_de_recoleccion/app/Http/Controllers/CollectionController.php)
+- Modelos: [app/Models/Collection.php](sistema_de_recoleccion/app/Models/Collection.php), [app/Models/User.php](sistema_de_recoleccion/app/Models/User.php) (relación collections)
+- Policies: [app/Policies/CollectionPolicy.php](sistema_de_recoleccion/app/Policies/CollectionPolicy.php)
+- Migraciones: [database/migrations/2025_10_04_000100_create_collections_table.php](sistema_de_recoleccion/database/migrations/2025_10_04_000100_create_collections_table.php) (y otras migraciones agregadas)
 - Vistas (Blade):
-	- `resources/views/dashboard.blade.php` — panel de usuario
-	- `resources/views/collections/*.blade.php` — index, create, show, edit
-	- `resources/views/layouts/navigation.blade.php` — cabecera y navegación (título apilado añadido)
+	- [resources/views/dashboard.blade.php](sistema_de_recoleccion/resources/views/dashboard.blade.php) — panel de usuario
+	- [resources/views/collections/](sistema_de_recoleccion/resources/views/collections/) — index, create, show, edit
+	- [resources/views/layouts/navigation.blade.php](sistema_de_recoleccion/resources/views/layouts/navigation.blade.php) — cabecera y navegación (título apilado añadido)
 
 - Reportes CSV mejorados
 	- Los CSV ahora se generan con encabezados y etiquetas en español (por ejemplo `tipo`, `estado`) y los valores `type`/`status` se exportan como `Orgánico`/`Programada`/`Cancelada`, etc.
@@ -288,39 +308,6 @@ Archivos relevantes (dónde mirar el código)
 		- `tests/Feature/CollectionValidationTest.php` — valida que `frequency` y `scheduled_at` son obligatorios al crear.
 	- Se añadió `database/factories/CollectionFactory.php` para facilitar la creación de datos en tests.
 
-Cómo probar rápidamente las nuevas cosas
---------------------------------------
-
-1) Migraciones (añade la columna `role`):
-
-```bash
-php artisan migrate
-```
-
-2) Generar y descargar un reporte (usar un usuario con recolecciones):
-
-```bash
-php artisan serve
-# entrar a http://127.0.0.1:8000 -> Dashboard -> Reportes
-# Generar nuevo reporte -> Descargar
-```
-
-3) Eliminar un reporte (desde la UI):
-- Solo verás el botón "Eliminar" en los reportes que pertenezcan a tu usuario.
-
-4) Limpiar reportes antiguos:
-
-```bash
-php artisan reports:clean --days=30
-```
-
-5) Correr tests relacionados:
-
-```bash
-./vendor/bin/phpunit --filter CancelCollectionTest
-./vendor/bin/phpunit --filter CollectionValidationTest
-```
-
 Notas de implementación y seguridad
 ----------------------------------
 - Los reportes se almacenan en `storage/app/reports`; asegúrate de que el directorio exista y sea escribible por la app.
@@ -329,20 +316,6 @@ Notas de implementación y seguridad
 
 Pruebas y comprobaciones rápidas
 - Para verificar la funcionalidad localmente: crea un usuario (registro), accede a la sección "Mis recolecciones" y prueba crear/editar/ver una recolección. Comprueba que el dashboard muestre las recolecciones y que el enlace del título del proyecto lleva al dashboard.
-
-
-Requerimientos no funcionales
-----------------------------
-
-Resumen de aspectos no funcionales importantes:
-
-- Usabilidad: interfaz intuitiva y procedimientos de registro de recolección en máximo 3 pasos.
-- Rendimiento: tiempos de carga y respuesta máximos definidos (p.ej. <3s para páginas, <2s para consultas simples).
-- Seguridad: autenticación segura, control de acceso por roles, cifrado y protección contra inyección SQL y ataques de fuerza bruta.
-- Disponibilidad: nivel objetivo de disponibilidad del 99.5% y tolerancia a fallos.
-- Escalabilidad: soporte para crecimiento en usuarios, rutas y empresas recolectoras.
-- Mantenibilidad: código modular y documentado, fácil de extender.
-- Compatibilidad: soporte para navegadores modernos y dispositivos móviles.
 
 
 Requisitos (desarrollo)
