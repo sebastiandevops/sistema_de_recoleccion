@@ -154,25 +154,6 @@ A continuación una guía rápida de las carpetas y archivos más importantes de
 	- `sistema_de_recoleccion/tests/Feature/CancelCollectionTest.php` — pruebas de cancelación de recolecciones.
 	- `sistema_de_recoleccion/tests/Feature/CollectionValidationTest.php` — pruebas de validación de formularios.
 
-### Enlaces rápidos (desde la raíz del repo):
-
-- [routes/web.php](sistema_de_recoleccion/routes/web.php)
-- [app/Models/Collection.php](sistema_de_recoleccion/app/Models/Collection.php)
-- [app/Http/Controllers/CollectionController.php](sistema_de_recoleccion/app/Http/Controllers/CollectionController.php)
-- [app/Http/Controllers/ReportController.php](sistema_de_recoleccion/app/Http/Controllers/ReportController.php)
-- [app/Policies/CollectionPolicy.php](sistema_de_recoleccion/app/Policies/CollectionPolicy.php)
-- [app/Console/Commands/CleanOldReports.php](sistema_de_recoleccion/app/Console/Commands/CleanOldReports.php)
-- [app/Notifications/CollectionCancelled.php](sistema_de_recoleccion/app/Notifications/CollectionCancelled.php)
-- [resources/views/collections/index.blade.php](sistema_de_recoleccion/resources/views/collections/index.blade.php)
-- [resources/views/reports/index.blade.php](sistema_de_recoleccion/resources/views/reports/index.blade.php)
-- [resources/views/dashboard.blade.php](sistema_de_recoleccion/resources/views/dashboard.blade.php)
-- [database/migrations/2025_10_04_000100_create_collections_table.php](sistema_de_recoleccion/database/migrations/2025_10_04_000100_create_collections_table.php)
-- [database/migrations/2025_10_04_100000_add_role_to_users.php](sistema_de_recoleccion/database/migrations/2025_10_04_100000_add_role_to_users.php)
-- [database/factories/CollectionFactory.php](sistema_de_recoleccion/database/factories/CollectionFactory.php)
-- [tests/Feature/CancelCollectionTest.php](sistema_de_recoleccion/tests/Feature/CancelCollectionTest.php)
-- [tests/Feature/CollectionValidationTest.php](sistema_de_recoleccion/tests/Feature/CollectionValidationTest.php)
-
-
 ## Funcionalidades implementadas (MVP actual)
 
 A continuación se describen las funcionalidades y rutas que ya están implementadas en este repositorio como parte del MVP mínimo entregable. Incluye el sistema de autenticación (Breeze), gestión básica de "recolecciones" por usuario y un panel (dashboard) resumen.
