@@ -3,8 +3,7 @@
 Proyecto para la materia: Ingeniería de Software I
 Institución: Politécnico Grancolombiano
 
-Equipo:
--------
+## Equipo:
 
 ```
 Sebastián Valencia Sierra
@@ -13,8 +12,7 @@ Laura Sofía Castellanos Manrique
 Julio Cesar Cárdenas Rodríguez
 ```
 
-Tabla de contenido
-------------------
+## Tabla de contenido
 
 - [Descripción del proyecto](#descripción-del-proyecto)
 - [Requerimientos funcionales](#requerimientos-funcionales)
@@ -26,15 +24,17 @@ Tabla de contenido
 - [Notas de autorización](#notas-de-autorización)
 - [Visualización e interfaz](#visualización-e-interfaz)
 - [Reportes (CSV)](#reportes-csv)
+- [Archivos relevantes (dónde mirar el código)](#archivos-relevantes-dónde-mirar-el-código)
+- [Notas de implementación y seguridad](#notas-de-implementación-y-seguridad)
 - [Requisitos (desarrollo)](#requisitos-desarrollo)
 - [Instalación y ejecución (macOS)](#macos)
 - [Instalación y ejecución (Windows)](#windows-powershell--cmd)
+- [Configurar el archivo .env](#configurar-el-archivo-env)
 - [Tests](#tests)
 - [Git](#git)
 - [Contribución y licencia](#contribución-y-licencia)
 
-Descripción del proyecto
-------------------------
+## Descripción del proyecto
 
 Aplicación web que permite dar soporte a los procesos que se desarrollan en una empresa de recolección de residuos domésticos, es un servicio diferente al de recolección de basura de la ciudad que busca reducir la cantidad de desechos que van a los rellenos sanitarios. Los usuarios acceden al servicio mediante una suscripción gratuita y voluntaria, y deben seguir pautas adecuadas para la separación, limpieza y entrega de los residuos. Los residuos que recolecta la empresa están categorizados en:
 
@@ -44,10 +44,9 @@ Aplicación web que permite dar soporte a los procesos que se desarrollan en una
 
 El sistema debe soportar el registro de solicitudes de recolección (programadas o por demanda), el registro de kilos entregados por recolección, notificaciones por WhatsApp (registro, día anterior y día de la recolección con número de turno), acumulación de puntos por recolección, canje de puntos y generación de reportes por usuario, localidad y empresa recolectora.
 
-Requerimientos funcionales
---------------------------
+## Requerimientos funcionales
 
-Los requerimientos funcionales (RF) principales son:
+### Los requerimientos funcionales (RF) principales son:
 
 - RF1: El sistema debe permitir a los administradores visualizar, registrar, editar y eliminar clientes (nombre, dirección, teléfono y tipo de servicio contratado).
 - RF2: El sistema debe permitir a los administradores crear y asignar rutas de recolección a los operarios.
@@ -57,10 +56,9 @@ Los requerimientos funcionales (RF) principales son:
 - RF6: El sistema debe implementar autenticación para operarios y administradores.
 - RF7: El sistema debe manejar perfiles con roles (administrador, operario) y restricciones de acceso según rol.
 
-Requerimientos no funcionales
-----------------------------
+## Requerimientos no funcionales
 
-Resumen de aspectos no funcionales importantes:
+### Resumen de aspectos no funcionales importantes:
 
 - Usabilidad: interfaz intuitiva y procedimientos de registro de recolección en máximo 3 pasos.
 - Rendimiento: tiempos de carga y respuesta máximos definidos (p.ej. <3s para páginas, <2s para consultas simples).
@@ -70,10 +68,9 @@ Resumen de aspectos no funcionales importantes:
 - Mantenibilidad: código modular y documentado, fácil de extender.
 - Compatibilidad: soporte para navegadores modernos y dispositivos móviles.
 
-Casos de uso
------------------------
+## Casos de uso
 
-Actores identificados:
+### Actores identificados:
 
 - Administrador: gestiona clientes, operarios, rutas y reportes.
 - Operario: realiza recolecciones, marca rutas completadas y registra cantidades.
@@ -82,7 +79,7 @@ Actores identificados:
 - Sistema externo (Tiendas colaboradoras): canje de puntos.
 - Empresa recolectora: su interacción se gestiona vía administradores/operarios para asignación y gestión de rutas.
 
-Casos de uso principales:
+### Casos de uso principales:
 
 - CU1 — Autenticar Usuario (RF6)
 	- Actor(es): Administrador, Operario, Usuario.
@@ -118,13 +115,10 @@ Casos de uso principales:
 
 ![Diagrama de Casos de Uso](sistema_de_recoleccion/docs/diagrams/use-cases.png)
 
-
-Diagrama de Clases
-------------------
+## Diagrama de Clases
 ![Diagrama de Clases](sistema_de_recoleccion/docs/diagrams/clases.jpg)
 
-Estructura del proyecto
------------------------
+## Estructura del proyecto
 
 A continuación una guía rápida de las carpetas y archivos más importantes del proyecto con enlaces corregidos (apuntan a la subcarpeta `sistema_de_recoleccion/` donde reside la app en este repositorio):
 
@@ -160,7 +154,7 @@ A continuación una guía rápida de las carpetas y archivos más importantes de
 	- `sistema_de_recoleccion/tests/Feature/CancelCollectionTest.php` — pruebas de cancelación de recolecciones.
 	- `sistema_de_recoleccion/tests/Feature/CollectionValidationTest.php` — pruebas de validación de formularios.
 
-Enlaces rápidos (desde la raíz del repo):
+### Enlaces rápidos (desde la raíz del repo):
 
 - [routes/web.php](sistema_de_recoleccion/routes/web.php)
 - [app/Models/Collection.php](sistema_de_recoleccion/app/Models/Collection.php)
@@ -179,18 +173,17 @@ Enlaces rápidos (desde la raíz del repo):
 - [tests/Feature/CollectionValidationTest.php](sistema_de_recoleccion/tests/Feature/CollectionValidationTest.php)
 
 
-Funcionalidades implementadas (MVP actual)
------------------------------------------
+## Funcionalidades implementadas (MVP actual)
 
 A continuación se describen las funcionalidades y rutas que ya están implementadas en este repositorio como parte del MVP mínimo entregable. Incluye el sistema de autenticación (Breeze), gestión básica de "recolecciones" por usuario y un panel (dashboard) resumen.
 
-Descripción general
+### Descripción general
 - Autenticación: registro, inicio de sesión y gestión de perfil (Breeze - Blade).
 - Programación de recolecciones: los usuarios autenticados pueden crear solicitudes de recolección (tipo, fecha/frecuencia, kilos estimados, notas) y ver su historial.
 - Dashboard de usuario: resumen con totales y últimas recolecciones del usuario autenticado.
 - Navegación: enlace al dashboard, sección "Mis recolecciones", botón "+ Programar Nueva Recolección" y enlace a configuración/perfil. También se añadió un título apilado "Proyecto / Gestión de Recursos" que enlaza al dashboard.
 
-Rutas y qué permiten
+### Rutas y qué permiten
 Las rutas principales creadas y su comportamiento son:
 
 - GET /dashboard
@@ -213,21 +206,19 @@ Las rutas principales creadas y su comportamiento son:
 - POST /logout
 	- Cierra sesión del usuario autenticado.
 
-Notas de autorización
----------------------
+## Notas de autorización
 
 - Todas las rutas relacionadas con `collections` y el `dashboard` están protegidas por middleware `auth`.
 - Existe una `CollectionPolicy` que restringe acciones sensibles (editar/eliminar/ver) al propietario de la recolección o a un usuario con rol admin. (Actualmente el chequeo de rol `hasRole('admin')` está preparado en la policy; si deseas, puedo añadir un campo `role` al modelo `User` y el helper `hasRole()` para completar la lógica).
 
-Visualización e interfaz
-------------------------
+## Visualización e interfaz
+
 - Barra superior (desktop): color verde (#16a34a) con el logo a la izquierda. Junto al logo aparece el título apilado "Proyecto" / "Gestión de Recursos" que enlaza al dashboard. A la derecha están los enlaces de navegación: Inicio (Dashboard), Mis recolecciones, + Programar Nueva Recolección y Configuración. El menú de usuario incluye nombre y opción de cierre de sesión.
 - Responsive (móvil): la navegación se colapsa en un botón "hamburger"; al abrirse muestra el título del proyecto en la parte superior del menú y los mismos enlaces (Inicio, Mis recolecciones, + Programar, Configuración). Se añadieron estilos inline para asegurar contraste aun si los assets de Tailwind no se compilan.
 - Dashboard: tarjetas resumen con totales y una lista de recolecciones recientes; botones rápidos para crear nueva recolección y editar perfil.
 - Formularios de recolección: campos típicos (tipo, modo, frecuencia/fecha, kilos estimados, notas). En el backend se validan las entradas antes de guardar.
 
-Reportes (CSV)
-----------------
+## Reportes (CSV)
 
 Se ha añadido una funcionalidad básica de reportes que permite a cada usuario generar un CSV con sus recolecciones y descargarlo desde la interfaz.
 
@@ -254,8 +245,7 @@ Se ha añadido una funcionalidad básica de reportes que permite a cada usuario 
 	3. Visita `Dashboard` → `Reportes` o directamente `http://127.0.0.1:8000/reports`.
 	4. Haz clic en "Generar nuevo reporte" y luego en "Descargar" para obtener el CSV.
 
-Ejemplo de CSV generado
------------------------
+### Ejemplo de CSV generado
 
 Ejemplo de cómo se verá el CSV generado (primera fila con encabezados y una fila de ejemplo):
 
@@ -264,9 +254,7 @@ id,tipo,modo,frecuencia,programado_en,kilos,estado,notas,creado_en
 123,Orgánico,Programada,2,2025-10-07 08:00,12.5,Programada,"Entrega en portería",2025-10-01 10:23:45
 ```
 
- 
-Archivos relevantes (dónde mirar el código)
--------------------------------------------
+## Archivos relevantes (dónde mirar el código)
 
 - Rutas: [routes/web.php](sistema_de_recoleccion/routes/web.php)
 - Controladores: [app/Http/Controllers/DashboardController.php](sistema_de_recoleccion/app/Http/Controllers/DashboardController.php), [app/Http/Controllers/CollectionController.php](sistema_de_recoleccion/app/Http/Controllers/CollectionController.php)
@@ -308,8 +296,8 @@ Archivos relevantes (dónde mirar el código)
 		- `tests/Feature/CollectionValidationTest.php` — valida que `frequency` y `scheduled_at` son obligatorios al crear.
 	- Se añadió `database/factories/CollectionFactory.php` para facilitar la creación de datos en tests.
 
-Notas de implementación y seguridad
-----------------------------------
+## Notas de implementación y seguridad
+
 - Los reportes se almacenan en `storage/app/reports`; asegúrate de que el directorio exista y sea escribible por la app.
 - La lógica de autorización usa `CollectionPolicy` y el helper `User::hasRole`. Si prefieres otro esquema de roles (p. ej. paquetes ACL), puedo migrar esa lógica.
 - La notificación por correo usa el mailer configurado (`MAIL_MAILER`); en desarrollo por defecto se usa `log` para no enviar emails reales.
@@ -318,19 +306,19 @@ Pruebas y comprobaciones rápidas
 - Para verificar la funcionalidad localmente: crea un usuario (registro), accede a la sección "Mis recolecciones" y prueba crear/editar/ver una recolección. Comprueba que el dashboard muestre las recolecciones y que el enlace del título del proyecto lleva al dashboard.
 
 
-Requisitos (desarrollo)
------------------------
+## Requisitos (desarrollo)
+
 - PHP >= 8.2
 - Composer
 - Node 16/18/20+ y npm
 - Git
 
+## Instalar prerequisitos (macOS y Windows)
 
-Instalar prerequisitos (macOS y Windows)
-----------------------------------------
 Abajo encontrarás comandos para instalar las herramientas necesarias en macOS (con Homebrew) y Windows (PowerShell con Chocolatey). Estas instrucciones están pensadas para entornos de desarrollo locales.
 
-macOS (Homebrew)
+### macOS (Homebrew)
+
 ```bash
 # 1) Instala Homebrew (si no lo tienes):
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -359,7 +347,7 @@ node -v
 npm -v
 ```
 
-Windows (PowerShell + Chocolatey)
+### Windows (PowerShell + Chocolatey)
 ```powershell
 # Ejecutar PowerShell como Administrador
 
@@ -390,7 +378,6 @@ nvm use 18.17.1
 node -v
 npm -v
 ```
-
 
 ## Instalación y ejecución (macOS)
 
